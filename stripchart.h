@@ -18,7 +18,7 @@ public:
   	 
    }
  
-  Stripchart(sf::RenderWindow& parent, int x, int y, int nSamples, int h, int period,  
+  Stripchart(sf::RenderWindow& parent, int x, int y, int nSamples, int h, int period,sf::Color color , 
  						 float minValue, float maxValue)
  	 					 
   {
@@ -45,6 +45,7 @@ public:
     points = new float[__nSamples];
     
      font.loadFromFile("sansation.ttf");
+     __color = color;
      
   }
   
@@ -173,12 +174,12 @@ public:
       if (i == 0)
       { 
       	 sf::Vertex line4[1];
-        point( __x +__nSamples - __nPoints + i, __y +  yPos, line4,   sf::Color(0,128,0,100));//first point
+        point( __x +__nSamples - __nPoints + i, __y +  yPos, line4,   __color);//first point
       }
       else
       { 
       	sf::Vertex line5[2];
-       line(  __x + prevX,__y +  prevY,__x +    __nSamples - __nPoints + i,__y +  yPos,line5, sf::Color(0,128,0,100));//plot
+       line(  __x + prevX,__y +  prevY,__x +    __nSamples - __nPoints + i,__y +  yPos,line5, __color);//plot
       }
       prevX = __nSamples - __nPoints + i;
       prevY = yPos;
@@ -238,7 +239,7 @@ private:
   std::string minString;  // minimum value as a string
   std::string maxString;  // maximum value as a string
   
- 
+ sf::Color __color;
    
   float prevX;    // remember previous point
   float prevY;

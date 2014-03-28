@@ -11,27 +11,37 @@
 
 int main() {
  
-   sf::RenderWindow  window(sf::VideoMode(400,250), "chart 1") ;
-   window.setFramerateLimit(30);
+    sf::RenderWindow  window(sf::VideoMode(400,250), "Strip Chart Sim") ;
+    window.setFramerateLimit(30);
    
-   Stripchart s1(window, 10, 50, 180, 50, 45,   1.0103, -1.0256); 
- 
+    Stripchart s1(window, 10, 50, 180, 50, 45, sf::Color(0, 128, 0),  -1.0f, 1.0f);
+    Stripchart s2(window, 10, 110, 180, 50, 45,  sf::Color(255, 0, 0), -1.0f, 1.0f); 
+    Stripchart s3(window, 10, 170, 120, 50, 0, sf::Color(0, 128, 128),  0, 400);
+    Stripchart s4(window, 200, 170, 120, 50, 0,  sf::Color(128, 0, 128), 0, 250);
+    int i=0;
+    int n = 0; 
+    int mouseX, mouseY;
     
- int i=0;
-int n = 0; 
     while ( window.isOpen() )
     {
     	 window.clear(sf::Color(255,255,255));
     	  
-    	 //s1.addData(sin( radians(n)));
-    	// s1.addData(sin( radians( n + 1 )));
-    	// s1.addData(sin( radians( n + 2 )));
-    	// s1.display();
-    	//  n = (n + 3) % 360;
+ 
     	
-    	//OR 
-    	
- 	 s1.plot(sin( radians(i % 360)));
+ 	 s1.plot(cos( radians(i % 360)));
+ 	
+ 	 s2.addData(sin(radians(n)));//+sin(radians(n)));
+         s2.addData(sin(radians(n)));
+  	 s2.addData(sin(radians(n)));
+ 	 s2.display();
+ 	
+ 	 n = (n + 3) % 360; 
+ 	
+	/* The last two charts track mouseX and mouseY movement */
+	s3.plot(mouseX);
+	s4.plot(mouseY);
+
+        
          i++;	 
  
 	   
@@ -50,6 +60,12 @@ int n = 0;
                 //s2.window->close();
                 window.close();
           }
+          else if(event.type == sf::Event::MouseMoved) {
+          	mouseX = event.mouseMove.x;
+          	mouseY = event.mouseMove.y;
+          std::cout << "\nMouseX: "<< mouseX << "\nMouseY: " << mouseY << std::endl;
+          }
+           
         }
                     
     }

@@ -134,12 +134,12 @@ public:
     
   
     sf::Text text(minString, font,12);
-    text.setPosition(__nSamples + 2, __h - VSPACE);
+    text.setPosition(__nSamples + 2, __h - VSPACE  );
     text.move(__x, __y);
     
     sf::Text text2(maxString, font,12);
     text2.setPosition(__nSamples + 2, VSPACE + 8);
-    text2.move(__x, __y);
+    text2.move(__x + 4, __y-20);
     
     parent_pnt->draw( rectangle );
     parent_pnt->draw( text );

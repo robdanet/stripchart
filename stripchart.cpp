@@ -1,13 +1,7 @@
 /**
-<<<<<<< HEAD
-* Demonstration for a "stripchart recorder" class.
-*/
-=======
- *   Demonstration for a "stripchart recorder" class.
+ * Demonstration for a "stripchart recorder" class.
+ * 28/03/14 22:43:25 
  */
- 
- 
->>>>>>> 1fcf49059a1a94c9c60c9f4ddeda011aec41b20a
 #include "stripchart.h"
  
   
@@ -18,21 +12,12 @@ int main() {
     window.setFramerateLimit(30);
    
     Stripchart s1(window, 10, 50, 180, 50, 45, sf::Color(0, 128, 0), -1.0f, 1.0f);
-<<<<<<< HEAD
     Stripchart s2(window, 10, 110, 180, 50, 45, sf::Color(255, 0, 0), -1.0f, 1.0f);
     Stripchart s3(window, 10, 170, 120, 50, 0, sf::Color(0, 128, 128), 0, 400);
     Stripchart s4(window, 200, 170, 120, 50, 0, sf::Color(128, 0, 128), 0, 250);
     
     int frameCount = 0;
     int n = 0;
-=======
-    Stripchart s2(window, 10, 110, 180, 50, 45, sf::Color(255, 0, 0), -1.0f, 1.0f); 
-    Stripchart s3(window, 10, 170, 120, 50, 0, sf::Color(0, 128, 128),  0, 400);
-    Stripchart s4(window, 200, 170, 120, 50, 0, sf::Color(128, 0, 128), 0, 250);
-    
-    int frameCount = 0;
-    int n = 0; 
->>>>>>> 1fcf49059a1a94c9c60c9f4ddeda011aec41b20a
     int mouseX, mouseY;
     
     while ( window.isOpen() )
@@ -43,8 +28,7 @@ int main() {
     
          s1.plot(cos( s1.radians(frameCount % 360)));
  
-<<<<<<< HEAD
-  	 s2.addData(sin(s2.radians(n)));//+sin(radians(n)));
+  	 s2.addData(sin(s2.radians(n))); 
          s2.addData(sin(s2.radians(n)));
   	 s2.addData(sin(s2.radians(n)));
  	 s2.display();
@@ -78,43 +62,6 @@ int main() {
 		   
 	}
 		            
-=======
-    	
- 	 s1.plot(cos( radians(frameCount % 360)));
- 	
- 	 s2.addData(sin(radians(n)));//+sin(radians(n)));
-         s2.addData(sin(radians(n)));
-  	 s2.addData(sin(radians(n)));
- 	 s2.display();
- 	
- 	 n = (n + 3) % 360; 
- 	
-	/* The last two charts track mouseX and mouseY movement */
-	s3.plot(mouseX);
-	s4.plot(mouseY);
-
-        
-         frameCount++;	
-         
-         window.display();
- 
-	sf::Event event;
-        while ( window.pollEvent(event) )
-        {
-          if ( (event.type == sf::Event::Closed) ||
-            ((event.type == sf::Event::KeyPressed) && (event.key.code==sf::Keyboard::Escape)) ){
-                 
-                window.close();
-          }
-          else if(event.type == sf::Event::MouseMoved) {
-          	mouseX = event.mouseMove.x;
-          	mouseY = event.mouseMove.y;
-          	std::cout << "\nMouseX: "<< mouseX << "\nMouseY: " << mouseY << std::endl;
-          }
-           
-        }
-                    
->>>>>>> 1fcf49059a1a94c9c60c9f4ddeda011aec41b20a
     }
     return EXIT_SUCCESS;
 }

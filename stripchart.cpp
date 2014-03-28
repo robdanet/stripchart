@@ -1,7 +1,5 @@
- /* OpenProcessing Tweak of *@*http://www.openprocessing.org/sketch/6789*@* */
-/* !do not delete the line above, required for linking your tweak if you upload again */
 /**
- * Demonstration for a "stripchart recorder" class.
+ *   Demonstration for a "stripchart recorder" class.
  */
  
  
@@ -14,11 +12,12 @@ int main() {
     sf::RenderWindow  window(sf::VideoMode(400,250), "Strip Chart Sim") ;
     window.setFramerateLimit(30);
    
-    Stripchart s1(window, 10, 50, 180, 50, 45, sf::Color(0, 128, 0),  -1.0f, 1.0f);
-    Stripchart s2(window, 10, 110, 180, 50, 45,  sf::Color(255, 0, 0), -1.0f, 1.0f); 
+    Stripchart s1(window, 10, 50, 180, 50, 45, sf::Color(0, 128, 0), -1.0f, 1.0f);
+    Stripchart s2(window, 10, 110, 180, 50, 45, sf::Color(255, 0, 0), -1.0f, 1.0f); 
     Stripchart s3(window, 10, 170, 120, 50, 0, sf::Color(0, 128, 128),  0, 400);
-    Stripchart s4(window, 200, 170, 120, 50, 0,  sf::Color(128, 0, 128), 0, 250);
-    int i=0;
+    Stripchart s4(window, 200, 170, 120, 50, 0, sf::Color(128, 0, 128), 0, 250);
+    
+    int frameCount = 0;
     int n = 0; 
     int mouseX, mouseY;
     
@@ -28,7 +27,7 @@ int main() {
     	  
  
     	
- 	 s1.plot(cos( radians(i % 360)));
+ 	 s1.plot(cos( radians(frameCount % 360)));
  	
  	 s2.addData(sin(radians(n)));//+sin(radians(n)));
          s2.addData(sin(radians(n)));
@@ -42,14 +41,8 @@ int main() {
 	s4.plot(mouseY);
 
         
-         i++;	 
- 
-	   
-	 
-	  
-	  //s2.display(); 
-	  
-	// s1.display();	  
+         frameCount++;	
+         
          window.display();
  
 	sf::Event event;
@@ -57,13 +50,13 @@ int main() {
         {
           if ( (event.type == sf::Event::Closed) ||
             ((event.type == sf::Event::KeyPressed) && (event.key.code==sf::Keyboard::Escape)) ){
-                //s2.window->close();
+                 
                 window.close();
           }
           else if(event.type == sf::Event::MouseMoved) {
           	mouseX = event.mouseMove.x;
           	mouseY = event.mouseMove.y;
-          std::cout << "\nMouseX: "<< mouseX << "\nMouseY: " << mouseY << std::endl;
+          	std::cout << "\nMouseX: "<< mouseX << "\nMouseY: " << mouseY << std::endl;
           }
            
         }

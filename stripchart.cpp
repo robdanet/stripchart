@@ -14,7 +14,7 @@ int main() {
    sf::RenderWindow  window(sf::VideoMode(400,250), "chart 1") ;
    window.setFramerateLimit(30);
    
-   Stripchart s1(window, 10, 50, 180, 50, 45,   -1.0, 1.0); 
+   Stripchart s1(window, 10, 50, 180, 50, 45,   1.0103, -1.0256); 
  
     
  int i=0;

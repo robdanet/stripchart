@@ -119,7 +119,7 @@ public:
     HSPACE = 2;
  
     // reserve space for the max/min value legend
-    rightSpace = std::max( minString.length(), maxString.length());
+    //rightSpace = std::max( minString.length(), maxString.length()) * 10;
     
     rectangle.setPosition(0.0f, 0.0f);
     //size del rettangolo
@@ -132,20 +132,20 @@ public:
     rectangle.move(__x, __y);
     
     //valore massimo
-    sf::Text text1(maxString, font,12);
+    sf::Text text1(maxString, font,12);int rectw1 = text1.getLocalBounds().width;
     text1.setColor(sf::Color(0,0,0));
-    text1.setPosition(__nSamples + 2, VSPACE + 8);
+    text1.setPosition(__nSamples + 2, VSPACE -2 );
    text1.move(__x  , __y );//text1.move(__x + 4, __y-20);
   
     //valore minimo  
-    sf::Text text2(minString, font,12);
+    sf::Text text2(minString, font,12);int rectw2 = text2.getLocalBounds().width;
     text2.setColor(sf::Color(0,0,0));
-    text2.setPosition(__nSamples + 2, __h - VSPACE);
+    text2.setPosition(__nSamples + 2, __h - VSPACE-8);
     text2.move(__x, __y);
     
     // text1.setPosition(__nSamples + 4, VSPACE + 8);
     // text2.setPosition(__nSamples + 4, __h - VSPACE);
-    
+    rightSpace = (int)std::max( rectw1, rectw2); 
     
     parent_pnt->draw( rectangle );
     parent_pnt->draw( text1 );
@@ -156,7 +156,7 @@ public:
     
     //assi della chart
     line(__x + HSPACE, __y + VSPACE + __h / 2, __x + __nSamples + rightSpace - HSPACE,__y +  VSPACE + __h / 2, line1, sf::Color(192,192,192));
-    line( __nSamples + 1,__y +  VSPACE,   __nSamples + 1,__y +  __h - VSPACE,line2, sf::Color(192,192,192));
+    line( __x+ __nSamples + 1,__y +  VSPACE, __x +    __nSamples + 1,__y +  __h - VSPACE,line2, sf::Color(192,192,192));
    
     for(int i = 0; i < __nPoints; i++)
     {

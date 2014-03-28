@@ -11,20 +11,21 @@
 class Stripchart {
 public:	
   std::string title;
-  sf::RenderWindow*  window ;
+   
   Stripchart(){}
   ~Stripchart(){ 
-  	delete window;
+  	
   	 
    }
  
-  Stripchart(int x, int y, int nSamples, int h, int period,  
+  Stripchart(sf::RenderWindow& parent, int x, int y, int nSamples, int h, int period,  
  						 float minValue, float maxValue)
  	 					 
   {
-  	 
+     parent_pnt = &parent; 
+     
      title = "Test";
-     window = new sf::RenderWindow(sf::VideoMode(400,250), title) ;
+     
      __x = x;
      __y = y;
      __nSamples = nSamples; 
@@ -68,6 +69,8 @@ public:
    
    sf::Font font;
    sf::RectangleShape rectangle;
+   sf::RenderWindow* parent_pnt;
+   
   /**
    * Add a data point to be plotted.
    * At this point you may be wondering why I am using an array
@@ -122,31 +125,32 @@ public:
     sf::Vector2f rect_size(__nSamples + rightSpace + 2 * HSPACE, __h + 2 * VSPACE);
     rectangle.setSize(rect_size); 
     
-    rectangle.setFillColor(sf::Color::White);
+    rectangle.setFillColor(sf::Color::Red);
     rectangle.setOutlineColor(sf::Color::Black);
+    rectangle.setOutlineThickness(1);
     rectangle.move(__x, __y);
     
-    sf::Vertex line1[2];
-    sf::Vertex line2[2];
-    
-    line(HSPACE, VSPACE + __h / 2, __nSamples + rightSpace - HSPACE, VSPACE + __h / 2, line1);
-    line(__nSamples + 1, VSPACE, __nSamples + 1, __h - VSPACE,line2);
+ 
     
   
     sf::Text text(minString, font,12);
-   
     text.setPosition(__nSamples + 2, __h - VSPACE);
     text.move(__x, __y);
     
     sf::Text text2(maxString, font,12);
-     
     text2.setPosition(__nSamples + 2, VSPACE + 8);
     text2.move(__x, __y);
     
-    window->draw( rectangle );
-    window->draw( text );
-    window->draw( text2 );
-   // window->display();
+    parent_pnt->draw( rectangle );
+    parent_pnt->draw( text );
+    parent_pnt->draw( text2 );
+    
+    sf::Vertex line1[2];
+    sf::Vertex line2[2];
+    
+    //assi della chart
+    line(__x + HSPACE, __y + VSPACE + __h / 2, __x + __nSamples + rightSpace - HSPACE,__y +  VSPACE + __h / 2, line1);
+    line(__x + __nSamples + 1,__y +  VSPACE,__x +  __nSamples + 1,__y +  __h - VSPACE,line2);
    
     for(int i = 0; i < __nPoints; i++)
     {
@@ -154,7 +158,7 @@ public:
       if (__period > 0 && arrayPos % __period == 0)
       {
         sf::Vertex line3[2];
-        line(__nSamples - __nPoints + i, VSPACE, __nSamples - __nPoints + i, __h - VSPACE,line3);
+        line(__x + __nSamples - __nPoints + i,__y +  VSPACE,__x +  __nSamples - __nPoints + i,__y +  __h - VSPACE,line3);
       }
      
       yPos = VSPACE + __h * (1  - (points[arrayPos] - __minValue) / (__maxValue - __minValue));
@@ -163,16 +167,20 @@ public:
       if (i == 0)
       { 
       	 sf::Vertex line4[2];
-         line(__nSamples - __nPoints + i, yPos, __nSamples - __nPoints + i, yPos,line4);//points
+         line(__x + __nSamples - __nPoints + i,__y +  yPos,__x +  __nSamples - __nPoints + i,__y +  yPos,line4);//points
       }
       else
       { 
       	sf::Vertex line5[2];
-        line(prevX, prevY, __nSamples - __nPoints + i, yPos,line5);
+        line(__x + prevX,__y +  prevY,__x +  __nSamples - __nPoints + i,__y +  yPos,line5);
       }
       prevX = __nSamples - __nPoints + i;
       prevY = yPos;
     }
+    
+     
+ 
+    //parent_pnt->display();
   
   }
   
@@ -185,13 +193,10 @@ public:
     		sf::Vertex(sf::Vector2f(x1, y1));
 	
 
-	window->draw(line, 2, sf::Lines);
+	parent_pnt->draw(line, 2, sf::Lines);
   }
   	
- double  radians(double degree) {
-    double r = degree*(360.0/M_PI);
-    return r;
-}
+ 
  
   void plot(double value)
   {
@@ -199,8 +204,12 @@ public:
     display();
   }
   
-private:
-	
+  double  radians(double degree) {
+    	double r = degree*(360.0/M_PI);
+       return r;
+   }
+   
+private:   	
   template <typename T>
   std::string format(const T a_value, const int n = 1)
   {
@@ -208,7 +217,8 @@ private:
     out << std::setprecision(n) << a_value;
     return out.str();
   }
-  float d ;//= new DecimalFormat("0.#");
+  
+  float d ; 
   std::string minString;  // minimum value as a string
   std::string maxString;  // maximum value as a string
   

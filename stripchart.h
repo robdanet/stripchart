@@ -6,7 +6,7 @@
 #include <iostream>
 #include <sstream>
 
-#define radians(angleDegrees) (angleDegrees * M_PI / 180.0) 
+//#define radians(angleDegrees) (angleDegrees * M_PI / 180.0) 
   
 class Stripchart {
 public:	
@@ -136,16 +136,14 @@ public:
     sf::Text text1(maxString, font,12);int rectw1 = text1.getLocalBounds().width;
     text1.setColor(sf::Color(0,0,0));
     text1.setPosition(__nSamples + 2, VSPACE -2 );
-   text1.move(__x  , __y );//text1.move(__x + 4, __y-20);
+    text1.move(__x  , __y ); 
   
     //valore minimo  
     sf::Text text2(minString, font,12);int rectw2 = text2.getLocalBounds().width;
     text2.setColor(sf::Color(0,0,0));
     text2.setPosition(__nSamples + 2, __h - VSPACE-8);
     text2.move(__x, __y);
-    
-    // text1.setPosition(__nSamples + 4, VSPACE + 8);
-    // text2.setPosition(__nSamples + 4, __h - VSPACE);
+ 
     rightSpace = (int)std::max( rectw1, rectw2); 
     
     parent_pnt->draw( rectangle );
@@ -156,7 +154,8 @@ public:
     sf::Vertex line2[2];
     
     //assi della chart
-    line(__x + HSPACE, __y + VSPACE + __h / 2, __x + __nSamples + rightSpace - HSPACE,__y +  VSPACE + __h / 2, line1, sf::Color(192,192,192));
+    line(__x + HSPACE, __y + VSPACE + __h / 2, __x + __nSamples + rightSpace - HSPACE,__y + VSPACE + __h / 2, line1, sf::Color(192,192,192));
+    
     line( __x+ __nSamples + 1,__y +  VSPACE, __x +    __nSamples + 1,__y +  __h - VSPACE,line2, sf::Color(192,192,192));
    
     for(int i = 0; i < __nPoints; i++)
@@ -165,7 +164,7 @@ public:
       if (__period > 0 && arrayPos % __period == 0)//linea verticale
       {
         sf::Vertex line3[2];
-      line(__x + __nSamples - __nPoints + i,__y +  VSPACE,__x +  __nSamples - __nPoints + i,__y +  __h - VSPACE,line3, sf::Color(192,192,192));
+        line(__x + __nSamples - __nPoints + i,__y +  VSPACE,__x +  __nSamples - __nPoints + i,__y +  __h - VSPACE,line3, sf::Color(192,192,192));
       }
      
       yPos = VSPACE + __h * (1  - (points[arrayPos] - __minValue) / (__maxValue - __minValue));
@@ -174,28 +173,21 @@ public:
       if (i == 0)
       { 
       	 sf::Vertex line4[1];
-        point( __x +__nSamples - __nPoints + i, __y +  yPos, line4,   __color);//first point
+         point( __x +__nSamples - __nPoints + i, __y +  yPos, line4,   __color);//first point
       }
       else
       { 
       	sf::Vertex line5[2];
-       line(  __x + prevX,__y +  prevY,__x +    __nSamples - __nPoints + i,__y +  yPos,line5, __color);//plot
+        line(  __x + prevX,__y +  prevY,__x +    __nSamples - __nPoints + i,__y +  yPos,line5, __color);//plot
       }
       prevX = __nSamples - __nPoints + i;
       prevY = yPos;
     }
-    
- /*  sf::Vertex l[2], l1[2];   
-   line(0,0,200,250,l,sf::Color::Black);
-   line(200,250,400,0,l1,sf::Color::Black);
- */
-//  parent_pnt->display();//oppure display nella parent
-  
   }
   
   void line(int x, int y, int x1, int y1, sf::Vertex line[2] ,sf::Color c)
   {
-  	  //line   = new sf::Vertex[2];
+  	  
 	line[0] = 
     		sf::Vertex(sf::Vector2f(x, y), c);
     	line[1] = 
@@ -207,7 +199,7 @@ public:
   	
    void point(int x, int y , sf::Vertex  loc[1], sf::Color c)
   {
-  	  //line   = new sf::Vertex[2];
+  	   
 	loc[0] = 
     		sf::Vertex(sf::Vector2f(x, y), c);
 	
@@ -221,11 +213,11 @@ public:
     display();
   }
   
-/*  double  radians(double degree) {
-    	double r = degree*(360.0/M_PI);
+   double  radians(double degree) {
+    	double r = degree * M_PI / 180.0;
        return r;
-   }
-*/ 
+   } 
+  
 private:   	
   template <typename T>
   std::string format(const T a_value, const int n = 1)

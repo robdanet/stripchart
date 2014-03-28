@@ -134,16 +134,18 @@ public:
     //valore massimo
     sf::Text text1(maxString, font,12);
     text1.setColor(sf::Color(0,0,0));
-    text1.setPosition(__nSamples + 4, VSPACE + 8);
-    text1.move(__x + 4, __y-20);
+    text1.setPosition(__nSamples + 2, VSPACE + 8);
+   text1.move(__x  , __y );//text1.move(__x + 4, __y-20);
   
     //valore minimo  
     sf::Text text2(minString, font,12);
     text2.setColor(sf::Color(0,0,0));
-    text2.setPosition(__nSamples + 4, __h - VSPACE  );
+    text2.setPosition(__nSamples + 2, __h - VSPACE);
     text2.move(__x, __y);
     
- 
+    // text1.setPosition(__nSamples + 4, VSPACE + 8);
+    // text2.setPosition(__nSamples + 4, __h - VSPACE);
+    
     
     parent_pnt->draw( rectangle );
     parent_pnt->draw( text1 );

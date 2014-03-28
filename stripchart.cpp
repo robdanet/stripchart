@@ -7,35 +7,39 @@
  
 #include "stripchart.h"
  
- 
+  
 
 int main() {
  
    sf::RenderWindow  window(sf::VideoMode(400,250), "chart 1") ;
-   window.setFramerateLimit(20);
+   window.setFramerateLimit(30);
    
    Stripchart s1(window, 10, 50, 180, 50, 45,   -1.0, 1.0); 
-   //Stripchart s2(10, 110, 180, 50, 45,   -1.0, 1.0 );
+ 
     
- int i=1;
-
+ int i=0;
+int n = 0; 
     while ( window.isOpen() )
     {
-    	 window.clear(sf::Color(200,200,200));
-    	 //s2.window->clear(sf::Color(255,255,255));
-    	 
- 	 s1.plot(cos(s1.radians(i  % 90)));
+    	 window.clear(sf::Color(255,255,255));
+    	  
+    	 //s1.addData(sin( radians(n)));
+    	// s1.addData(sin( radians( n + 1 )));
+    	// s1.addData(sin( radians( n + 2 )));
+    	// s1.display();
+    	//  n = (n + 3) % 360;
+    	
+    	//OR 
+    	
+ 	 s1.plot(sin( radians(i % 360)));
          i++;	 
  
-	 //s2.addData(sin(s2.radians(n)));
-	 //s2.addData(sin(s2.radians(n + 1)));
-	 //s2.addData(sin(s2.radians(n + 2)));
 	   
-	  n = (n + 3) % 360;
+	 
 	  
 	  //s2.display(); 
 	  
-	 s1.display();	  
+	// s1.display();	  
          window.display();
  
 	sf::Event event;

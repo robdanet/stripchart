@@ -12,11 +12,7 @@ class Stripchart {
 public:	
   std::string title;
    
-  Stripchart(){}
-  ~Stripchart(){ 
-  	
-  	 
-   }
+ 
  
   Stripchart(sf::RenderWindow& parent, int x, int y, int nSamples, int h, int period,sf::Color color , 
  						 float minValue, float maxValue)
@@ -55,7 +51,7 @@ public:
   int __y;           // vertical position of chart
   int __nSamples;    // number of samples to display (affects width)
   int __h;           // height of chart
- // sf::Color __colour;    // color of dots to plot
+  
   int __dataPos;     // where does next data point go?
   int __startPos;    // where do we start plotting?
   int __nPoints;     // number of points currently in the array

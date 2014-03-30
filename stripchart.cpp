@@ -29,8 +29,8 @@ int main() {
          s1.plot(cos( s1.radians(frameCount % 360)));
  
   	 s2.addData(sin(s2.radians(n))); 
-         s2.addData(sin(s2.radians(n)));
-  	 s2.addData(sin(s2.radians(n)));
+         s2.addData(sin(s2.radians(n+1)));
+  	 s2.addData(sin(s2.radians(n+2)));
  	 s2.display();
  
   	 n = (n + 3) % 360;

@@ -5,14 +5,17 @@
 #include <iomanip>
 #include <iostream>
 #include <sstream>
+   
 
 //#define radians(angleDegrees) (angleDegrees * M_PI / 180.0) 
-  
-class Stripchart {
+ 
+class Stripchart   {
+ 
 public:	
   std::string title;
    
- 
+ Stripchart(){}
+ ~Stripchart(){}
  
   Stripchart(sf::RenderWindow& parent, int x, int y, int nSamples, int h, int period,sf::Color color , 
  						 float minValue, float maxValue)
@@ -22,42 +25,44 @@ public:
      
      title = "Test";
      
-     __x = x;
-     __y = y;
-     __nSamples = nSamples; 
-     __h = h;
-     __period = period;
+      this->x = x;
+      this->y = y;
+      this->nSamples = nSamples; 
+      this->h = h;
+      this->period = period;
      
     // make sure minimum and max are in proper order
-     __minValue = std::min(minValue, maxValue);
-     __maxValue = std::max(minValue, maxValue);
-    
+      this->minValue = std::min(minValue, maxValue);
+      this->maxValue = std::max(minValue, maxValue);
+     
     // and convert them to a string with minimal numbr of decimal places
-    minString =  format(__minValue);
-    maxString =  format(__maxValue);
-    __nPoints = 0;
-    __dataPos = 0;
-    __startPos = 0;
-    points = new float[__nSamples];
+    minString =  format( minValue);
+    maxString =  format( maxValue);
+     nPoints = 0;
+     dataPos = 0;
+     startPos = 0;
+     points = new float[ nSamples];
+    
+    
     
      font.loadFromFile("sansation.ttf");
-     __color = color;
+      this->color = color;
      
   }
   
  
  
-  int __x;           // horizontal position of chart
-  int __y;           // vertical position of chart
-  int __nSamples;    // number of samples to display (affects width)
-  int __h;           // height of chart
-  
-  int __dataPos;     // where does next data point go?
-  int __startPos;    // where do we start plotting?
-  int __nPoints;     // number of points currently in the array
-  int __period;      // how often to draw a gray line
-  float __minValue;  // minimum value to display
-  float __maxValue;  // maximum value to display
+  int  x;           // horizontal position of chart
+  int  y;           // vertical position of chart
+  int  nSamples;    // number of samples to display (affects width)
+  int  h;           // height of chart
+   
+  int  dataPos;     // where does next data point go?
+  int  startPos;    // where do we start plotting?
+  int  nPoints;     // number of points currently in the array
+  int  period;      // how often to draw a gray line
+  float  minValue;  // minimum value to display
+  float  maxValue;  // maximum value to display
   float *points;  // the data points to plot
  
   /**
@@ -81,26 +86,31 @@ public:
   void addData(double value)
   {
     //value = constrain(value, minValue, maxValue);
-    if(value > __maxValue)value = __maxValue;
-    else if(value < __minValue) value = __minValue;
+    if(value >  maxValue)value =  maxValue;
+    else if(value <  minValue) value =  minValue;
     
     
-    points[__dataPos] = value;    
-    __dataPos = (__dataPos + 1) % __nSamples; // wrap around when array fills
+    points[ dataPos] = value;    
+    dataPos = ( dataPos + 1) %  nSamples; // wrap around when array fills
 
     /*
      * If the array isn't full yet, add to the end of the array
      * Otherwise, the start point for plotting moves through
      * the array.
      */
-    if (__nPoints < __nSamples)
+    if ( nPoints <  nSamples)
     {
-      __nPoints++;
+       nPoints++;
     }
     else
     {
-      __startPos = (__startPos + 1) % __nSamples;
+       startPos = ( startPos + 1) %  nSamples;
     }
+  }
+ template <typename T>
+  T& addChannel(T& channel) {
+ 
+      return  channel;
   }
   
   void display()
@@ -120,25 +130,25 @@ public:
     
     rectangle.setPosition(0.0f, 0.0f);
     //size del rettangolo
-    sf::Vector2f rect_size(__nSamples + rightSpace + 2 * HSPACE, __h + 2 * VSPACE);
+    sf::Vector2f rect_size( nSamples + rightSpace + 2 * HSPACE,  h + 2 * VSPACE);
     rectangle.setSize(rect_size); 
     
     rectangle.setFillColor(sf::Color::White);
     rectangle.setOutlineColor(sf::Color::Black);
     rectangle.setOutlineThickness(1);
-    rectangle.move(__x, __y);
+    rectangle.move( x,  y);
     
     //valore massimo
     sf::Text text1(maxString, font,12);int rectw1 = text1.getLocalBounds().width;
     text1.setColor(sf::Color(0,0,0));
-    text1.setPosition(__nSamples + 2, VSPACE -2 );
-    text1.move(__x  , __y ); 
+    text1.setPosition( nSamples + 2, VSPACE -2 );
+    text1.move( x  ,  y ); 
   
     //valore minimo  
     sf::Text text2(minString, font,12);int rectw2 = text2.getLocalBounds().width;
     text2.setColor(sf::Color(0,0,0));
-    text2.setPosition(__nSamples + 2, __h - VSPACE-8);
-    text2.move(__x, __y);
+    text2.setPosition( nSamples + 2,  h - VSPACE-8);
+    text2.move( x,  y);
  
     rightSpace = (int)std::max( rectw1, rectw2); 
     
@@ -150,35 +160,36 @@ public:
     sf::Vertex line2[2];
     
     //assi della chart
-    line(__x + HSPACE, __y + VSPACE + __h / 2, __x + __nSamples + rightSpace - HSPACE,__y + VSPACE + __h / 2, line1, sf::Color(192,192,192));
+    line( x + HSPACE,  y + VSPACE +  h / 2,  x +  nSamples + rightSpace - HSPACE, y + VSPACE +  h / 2, line1, sf::Color(192,192,192));
     
-    line( __x+ __nSamples + 1,__y +  VSPACE, __x +    __nSamples + 1,__y +  __h - VSPACE,line2, sf::Color(192,192,192));
+    line(  x+  nSamples + 1, y +  VSPACE,  x +     nSamples + 1, y +   h - VSPACE,line2, sf::Color(192,192,192));
    
-    for(int i = 0; i < __nPoints; i++)
+    for(int i = 0; i <  nPoints; i++)
     {
-      arrayPos = (__startPos + i) % __nSamples;
-      if (__period > 0 && arrayPos % __period == 0)//linea verticale
+      arrayPos = ( startPos + i) %  nSamples;
+      if ( period > 0 && arrayPos %  period == 0)//linea verticale
       {
         sf::Vertex line3[2];
-        line(__x + __nSamples - __nPoints + i,__y +  VSPACE,__x +  __nSamples - __nPoints + i,__y +  __h - VSPACE,line3, sf::Color(192,192,192));
+        line( x +  nSamples -  nPoints + i, y +  VSPACE, x +   nSamples -  nPoints + i, y +   h - VSPACE,line3, sf::Color(192,192,192));
       }
      
-      yPos = VSPACE + __h * (1  - (points[arrayPos] - __minValue) / (__maxValue - __minValue));
+      yPos = VSPACE +  h * (1  - (points[arrayPos] -  minValue) / ( maxValue -  minValue));
       
       // Draw a point for the first item, then connect all the other points with lines
       if (i == 0)
       { 
       	 sf::Vertex line4[1];
-         point( __x +__nSamples - __nPoints + i, __y +  yPos, line4,   __color);//first point
+         point(  x + nSamples -  nPoints + i,  y +  yPos, line4,    color);//first point
       }
       else
       { 
       	sf::Vertex line5[2];
-        line(  __x + prevX,__y +  prevY,__x +    __nSamples - __nPoints + i,__y +  yPos,line5, __color);//plot
+        line(   x + prevX, y +  prevY, x +     nSamples -  nPoints + i, y +  yPos,line5,  color);//plot
       }
-      prevX = __nSamples - __nPoints + i;
+      prevX =  nSamples -  nPoints + i;
       prevY = yPos;
     }
+     
   }
   
   void line(int x, int y, int x1, int y1, sf::Vertex line[2] ,sf::Color c)
@@ -190,7 +201,7 @@ public:
     		sf::Vertex(sf::Vector2f(x1, y1), c);
 	
 
-	parent_pnt->draw(line, 2, sf::Lines);
+	parent_pnt->draw(line, 2, sf::Lines );
   }
   	
    void point(int x, int y , sf::Vertex  loc[1], sf::Color c)
@@ -211,7 +222,7 @@ public:
   
    double  radians(double degree) {
     	double r = degree * M_PI / 180.0;
-       return r;
+        return r;
    } 
   
 private:   	
@@ -227,12 +238,12 @@ private:
   std::string minString;  // minimum value as a string
   std::string maxString;  // maximum value as a string
   
- sf::Color __color;
-   
-  float prevX;    // remember previous point
-  float prevY;
-   
+ sf::Color  color;
  
+  
+       
+   float prevX;    // remember previous point
+   float prevY;
    int rightSpace ;
    int VSPACE ;
    int HSPACE ;

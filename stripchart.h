@@ -55,8 +55,8 @@ public:
    *
    */
 
-void addData(double value)
-{
+   void addData(double value)
+   {
 	if(value >  maxValue)value =  maxValue;
 	else if(value <  minValue) value =  minValue;
 
@@ -80,121 +80,123 @@ void addData(double value)
 }
 //------------------------------------------------------------------------------
 
-template <typename T>
-	T& addChannel(T& channel) {
-
+   template <typename T>
+   T& addChannel(T& channel) 
+   {
 	return  channel;
-}
+   }
+//------------------------------------------------------------------------------
   
   void display()
   {
-    int arrayPos;
-    float yPos;
+	int arrayPos;
+    	float yPos;
     
-    VSPACE = 2;
-    HSPACE = 2;
+    	VSPACE = 2;
+    	HSPACE = 2;
    
-    rectangle.setPosition(0.0f, 0.0f);
-    //size del rettangolo
-    sf::Vector2f rect_size( nSamples + rightSpace + 2 * HSPACE,  h + 2 * VSPACE);
-    rectangle.setSize(rect_size); 
+    	rectangle.setPosition(0.0f, 0.0f);
+    	//size del rettangolo
+    	sf::Vector2f rect_size( nSamples + rightSpace + 2 * HSPACE,  h + 2 * VSPACE);
+    	rectangle.setSize(rect_size); 
     
-    rectangle.setFillColor(sf::Color( 255,255,255,0));
-    rectangle.setOutlineColor(sf::Color::Black);
-    rectangle.setOutlineThickness(1);
-    rectangle.move( x,  y);
+    	rectangle.setFillColor(sf::Color( 255,255,255,0));
+    	rectangle.setOutlineColor(sf::Color::Black);
+    	rectangle.setOutlineThickness(1);
+    	rectangle.move( x,  y);
     
-    //valore massimo
-    sf::Text text1(maxString, font,12);int rectw1 = text1.getLocalBounds().width;
-    text1.setColor(sf::Color(0,0,0));
-    text1.setPosition( nSamples + 2, VSPACE -2 );
-    text1.move( x  ,  y ); 
+    	//valore massimo
+    	sf::Text text1(maxString, font,12);int rectw1 = text1.getLocalBounds().width;
+    	text1.setColor(sf::Color(0,0,0));
+    	text1.setPosition( nSamples + 2, VSPACE -2 );
+    	text1.move( x  ,  y ); 
   
-    //valore minimo  
-    sf::Text text2(minString, font,12);int rectw2 = text2.getLocalBounds().width;
-    text2.setColor(sf::Color(0,0,0));
-    text2.setPosition( nSamples + 2,  h - VSPACE-8);
-    text2.move( x,  y);
+    	//valore minimo  
+    	sf::Text text2(minString, font,12);int rectw2 = text2.getLocalBounds().width;
+    	text2.setColor(sf::Color(0,0,0));
+    	text2.setPosition( nSamples + 2,  h - VSPACE-8);
+    	text2.move( x,  y);
     
-    //space for legend 
-    rightSpace = (int)std::max( rectw1, rectw2); 
+    	//space for legend 
+    	rightSpace = (int)std::max( rectw1, rectw2); 
     
-    parent_pnt->draw( rectangle );
-    parent_pnt->draw( text1 );
-    parent_pnt->draw( text2 );
+    	parent_pnt->draw( rectangle );
+    	parent_pnt->draw( text1 );
+    	parent_pnt->draw( text2 );
     
-    sf::Vertex line1[2];
-    sf::Vertex line2[2];
+    	sf::Vertex line1[2];
+    	sf::Vertex line2[2];
     
-    //chart'axis
-    line( 
+    	//chart'axis
+    	line( 
     		x + HSPACE, 
     		y + VSPACE + h/2, 
     		x + nSamples + rightSpace - HSPACE, 
     		y + VSPACE + h/2, 
     		line1, 
     		sf::Color(192,192,192)
-    	); 
+    	    ); 
     
-    line(  
+    	line(  
     		x + nSamples + 1, 
     		y + VSPACE,  
     		x + nSamples + 1, 
     		y + h - VSPACE,
     		line2, 
     		sf::Color(192,192,192)
-    	);
+    	    );
    
-    for(int i = 0; i <  nPoints; i++)
-    {
-	arrayPos = ( startPos + i) %  nSamples;
+    		
+    	    for(int i = 0; i <  nPoints; i++)
+    	    {
+		arrayPos = ( startPos + i) %  nSamples;
       
-        if ( period > 0 && arrayPos %  period == 0)//linea verticale
-        {
-        	sf::Vertex line3[2];
+        	if ( period > 0 && arrayPos %  period == 0)//linea verticale
+        	{
+        		sf::Vertex line3[2];
         
-        	line( 
-        		x + nSamples - nPoints + i,
-        		y + VSPACE, 
-        		x + nSamples -  
-        		nPoints + i, 
-        		y + h -VSPACE,
-        		line3, 
-        		sf::Color(192,192,192)
-        	    );
-         }
-         yPos = VSPACE + h * (1 - (points[arrayPos] - minValue) / (maxValue - minValue));
+        		line( 
+        			x + nSamples - nPoints + i,
+        			y + VSPACE, 
+        			x + nSamples -  
+        			nPoints + i, 
+        			y + h -VSPACE,
+        			line3, 
+        			sf::Color(192,192,192)
+        		    );
+         	}
+         	
+         	yPos = VSPACE + h * (1 - (points[arrayPos] - minValue) / (maxValue - minValue));
       
-         // Draw a point for the first item, then connect all the other points with lines
-         if (i == 0)
-         { 
-		sf::Vertex point1[1];
-		//first point
-	        point(  
-	        	x + nSamples - nPoints + i,  
-	        	y +  yPos, point1,    
-	        	color
-	             ); 
-      	 }
-         else
-         { 	//plot line
-		sf::Vertex line4[2];
-        
-        	line(  
-        		x + prevX, 
-        		y + prevY, 
-        		x + nSamples - nPoints + i, 
-        		y + yPos,
-        		line4,  
-        		color
-        	    );
-         }
+         	// Draw a point for the first item, then connect all the other points with lines
+         	if (i == 0)
+         	{ 
+			sf::Vertex point1[1];
+			//first point of plot line
+	        	point(  
+	        		x + nSamples - nPoints + i,  
+	        		y +  yPos, point1,    
+	        		color
+	             	     ); 
+      	 	}
+         	else
+         	{ 	 
+			sf::Vertex line4[2];
+        		//plot line
+        		line(  
+        			x + prevX, 
+        			y + prevY, 
+        			x + nSamples - nPoints + i, 
+        			y + yPos,
+        			line4,  
+        			color
+        		    );
+         	}
          
-         prevX = nSamples - nPoints + i;
-         prevY = yPos;
-    }
-     
-  }
+         	prevX = nSamples - nPoints + i;
+         	prevY = yPos;
+  	    }
+   }
 //------------------------------------------------------------------------------  
  
   void plot(double value)

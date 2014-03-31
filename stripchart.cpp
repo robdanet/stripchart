@@ -35,17 +35,21 @@ settings.antialiasingLevel = 8;
     {
          window.clear(sf::Color(255,255,255));
          
-    		channel.addData( sin(s1.radians(n))) ;
+    		//channel.addData( sin(s1.radians(n))) ;
                  
            
-               s1.plot(cos( s1.radians(frameCount % 360)));
-          
-          //channels.display();
-   	  s1.addChannel(channel).display();
-  	 s2.addData(sin(s2.radians(n))); 
-         s2.addData(sin(s2.radians(n+1)));
-  	 s2.addData(sin(s2.radians(n+2)));
- 	 s2.display();
+           
+           
+          s1.addChannel(channel);//.display(); oppure channel.display();
+   	  channel.addData( sin(s1.radians(n))) ;
+   	  channel.display();
+  	  s1.plot(cos( s1.radians(frameCount % 360)));
+  	  
+  	  
+  	  s2.addData(sin(s2.radians(n))); 
+          s2.addData(sin(s2.radians(n+1)));
+  	  s2.addData(sin(s2.radians(n+2)));
+ 	  s2.display();
  
   	 n = (n + 3) % 360;
  
@@ -66,6 +70,9 @@ settings.antialiasingLevel = 8;
 		   ( (event.type == sf::Event::KeyPressed) && (event.key.code==sf::Keyboard::Escape) )) {
 		         
 		        window.close();
+		}
+		else if((event.type == sf::Event::KeyPressed) && (event.key.code==sf::Keyboard::C)) {
+			channel.toggle();
 		}
 		else if(event.type == sf::Event::MouseMoved) {
 			mouseX = event.mouseMove.x;
